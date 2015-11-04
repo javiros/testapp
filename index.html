@@ -1,0 +1,147 @@
+<!doctype html>
+<html class="no-js" lang="" ng-app="clavisApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Clavis UI Dev Test</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/custom-styles.css">
+        <!-- ion icons link -->
+        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="container"  ng-controller="superheroCtrl as superhero">
+            <div class="row">
+                <div class="space-10"></div>
+                <div class="col-md-12">
+                            <img src="img/clavis-logo-color.png"> 
+                </div>
+                <div class="page-header col-md-12">
+                    <div class="col-md-6">
+                        <h1>
+                            Test App by Javier Rossetti 
+                        </h1>                            
+                    </div>
+                    <div class="col-md-5">
+                      <div class="pull-right">
+                        <a href="http://stackoverflow.com/users/1898993/jax">
+                            <img src="http://stackoverflow.com/users/flair/1898993.png?theme=dark" width="158" height="45" alt="profile for Jax at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for Jax at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+                        </a>
+                        <a href="https://github.com/javiros">
+                            <img src="img/Octocat.png" alt="Github" width="45" height="45" title="Github profile">
+                        </a>
+                        <a href="https://ie.linkedin.com/in/javierrossetti">
+                            <img src="img/linkedin.png" alt="Github" width="45" height="45" title="Linkedin profile">
+                        </a>
+
+                    </div>
+                  </div>
+                </div> <!-- page header ends -->
+                <div class="col-md-12">
+                    <h3>
+                        <small>1. Consume the good endpoint and display a list of the results on-screen.</small><br>
+                        <small>2. Display the results in capitals without using CSS transforms. Note: I am using angulars uppercase filter to achieve this</small>
+                    </h3>
+                    <div class="space-20"></div>
+
+                    <div class="input-group col-md-3">
+                      <span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-search"></i></span>
+                      <input type="text" class="form-control" placeholder="Search by name" aria-describedby="basic-addon1" ng-model="search.name" autofocus="true">
+                    </div>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <th>Name</th>
+                            <th>Superpower</th>
+                            <th>End of an era</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sh in superhero.superheroArray | filter:search:strict">
+                                <td>{{sh.name | uppercase }}</td>
+                                <td>{{sh.superpower | uppercase }}</td>
+                                <td>{{sh.end_of_an_era | date: "dd/MM/yyyy"}}</td>
+                            </tr>
+                        </tbody>
+                    </table>   <!-- table ends -->  
+                </div>   <!-- table div ends --> 
+                <div class="space-20"></div>
+                <div class="col-md-6"> <!-- Search section starts -->
+                    <h3><small>3. Add search functionality to the UI that uses the search endpoint instead.</small></h3>
+                    <div class="input-group">
+                        <button type="button" class="btn btn-primary" ng-click="superhero.search()">Search <i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                    <div class="space-20"></div>
+                    <div class="col-md-12 well well-sm" ng-hide="!superhero.searchData" >
+                        See below the result of your search:<br>
+                        <p>Name: {{superhero.searchData.name}}</p>
+                        <p>Superpower: {{superhero.searchData.superpower}}</p>
+                        <p>End of an era: {{superhero.searchData.end_of_an_era | date:'fullDate'}}</p>
+                        <div class="space-20"></div>
+                        <h3><small>5. If the search term called a second time then fetch it from a local JS cache rather than hitting the network.</small></h3>
+                        <div class="alert alert-info col-md-8" role="alert">
+                            {{superhero.status}}<br>
+                            {{superhero.cacheInfo}}
+                            <div class="space-10"></div>
+                            <div class="input-group">
+                            <button type="button" class="btn btn-success btn-xs" ng-click="superhero.clearCache()">clear Cache <i class="glyphicon glyphicon-remove"></i></button>
+                        </div>
+                    </div>
+                    </div>               
+                </div>   <!-- Search section ends -->
+                <div class="col-md-6">
+                    <h3><small>4. Take the error endpoint and display the error message it returns.</small></h3>
+                    <div class="input-group">
+                      <button type="button" class="btn btn-danger" ng-click="superhero.error()">Press if you dare <i class="ion-help-circled"></i></button>
+                    </div>
+                    <div class="space-20"></div>
+                    <div class="col-md-12" ng-hide="!superhero.errorMsg" >
+                        <div class="alert alert-danger" role="alert">
+                        {{superhero.errorMsg}}
+                        </div>
+                    </div> 
+                </div>   
+                <div class="space-70"></div>
+            </div> <!-- row ends -->
+        </div> <!-- container ends -->
+        
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script>
+        <script type="text/javascript" src="js/angular-stuff.js"></script>
+    </body>
+</html>
